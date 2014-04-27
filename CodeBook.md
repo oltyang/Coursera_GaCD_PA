@@ -46,7 +46,7 @@ The steps performed by the script are the following:
 
 ## Structure of the output files
 ### "all_clean_data.txt"
-- SUBSET: TEST/TRAIN (the observation comes from the train or the test dataset)
+- SUBSET: TEST/TRAIN (the observation comes from the test or the train dataset)
 - SUBJECT: ID of the subject - Its range is from 1 to 30
 - TBODYACC_MEAN_X: The mean of tBodyAcc measure in the X direction [original variable name: 'tBodyAcc-mean()-X']
 - TBODYACC_MEAN_Y: The mean of tBodyAcc measure in the Y direction [original variable name: 'tBodyAcc-mean()-Y']
