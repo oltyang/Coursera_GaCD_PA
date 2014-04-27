@@ -23,8 +23,8 @@ The purpose of the script in this repository is to
 
 ## Ouput
 The script generates two output tables:
-+ all_clean_data.txt: it contains all the test and train datasets (data, subjects, activities). The dimension of the table is 10299 x 69, and the size of it is ~ 8.4MB
-+ averages_by_activity_subject.txt: it holds the averages of all the mean and std measures from the previous file by activity and subject. The dimension of the table is 180 x 68, and the size of it is ~ 225kB
++ "all_clean_data.txt": it contains all the test and train datasets (data, subjects, activities). The dimension of the file is 10299 x 69, and the size of it is ~ 8.4MB
++ "averages_by_activity_subject.txt": it holds the averages of all the mean and std measures from the previous file by activity and subject. The dimension of the file is 180 x 68, and the size of it is ~ 225kB
 
 ## Performance
 The script normally runs about 30 seconds (it depends on your system's performance).
