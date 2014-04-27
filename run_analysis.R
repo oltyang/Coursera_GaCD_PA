@@ -1,4 +1,4 @@
-# Step 1: Creating merged and appended output table ------------------------------------------------------------
+# Step 1: Creating merged and appended output table -------------------------------------------------------
 
 # Input check: checking the existence of the data
 fnTest_Data    <- file.path("UCI HAR Dataset","test","X_test.txt")
@@ -28,11 +28,12 @@ if (length(sMessage) > 0) {                                      # If there were
 }
 
 # Constructing descriptive column names
-dfFeat  <- read.table(fnFeatures, header = FALSE, colClasses="character")
-colnames <- gsub("()-","_",dfFeat[,2], fixed = TRUE)
+dfFeat  <- read.table(fnFeatures, header = FALSE, 
+                      colClasses="character")
+colnames <- gsub("()-","_",dfFeat[,2], fixed = TRUE)             # Formatting the variable names
 colnames <- gsub("()","", colnames, fixed = TRUE)
 colnames <- gsub("-","_", colnames)
-colnames <- toupper(colnames)
+colnames <- toupper(colnames)                                    # To uppercase conversion 
 
 # Selecting only the relevant columns
 cols    <- grep("(-std\\(\\)|-mean\\(\\))", dfFeat[,2])
@@ -41,17 +42,11 @@ cols    <- grep("(-std\\(\\)|-mean\\(\\))", dfFeat[,2])
 dfTest  <- read.table(fnTest_Data, header = FALSE, col.names = colnames)[,cols]
 dfTrain <- read.table(fnTrain_Data, header = FALSE, col.names = colnames)[,cols]
 
-#names(dfTest)  <- colnames
-#names(dfTrain) <- colnames
-
 # Reading subject and activity data
 dfTestS  <- read.table(fnTest_Subject, header = FALSE, col.names="SUBJECT")
 dfTrainS <- read.table(fnTrain_Subject, header = FALSE, col.names="SUBJECT")
 dfTestO  <- read.table(fnTest_Output, header = FALSE, col.names="ACTIVITY")
 dfTrainO <- read.table(fnTrain_Output, header = FALSE, col.names="ACTIVITY")
-
-#dfTest  <- dfTest[,cols]
-#dfTrain <- dfTrain[,cols]
 
 # Labeling the data set with descriptive activity names
 dfAct <- read.table(fnActivities, header = FALSE, colClasses="character")
@@ -65,26 +60,17 @@ names(dfTemp1)[1] <- "SUBSET"
 dfTemp2 <- cbind(rep("TRAIN", dim(dfTrain)[1]), dfTrainS, dfTrain, dfTrainO)
 names(dfTemp2)[1] <- "SUBSET"
 
-dfComplete <- rbind(dfTemp1, dfTemp2)
-#remove('dfTemp1','dfTemp2','dfTest','dfTrain','dfTestS','dfTestO','dfTrainS','dfTrainO', 'dfFeat', 'dfAct)
+dfComplete <- rbind(dfTemp1, dfTemp2)                            # Appended Output
 
-# Using descriptive activity labels
-dfAct <- read.table(fnActivities, header = FALSE)
-dfOutput <- merge(dfOutputT, dfAct, by.x="ID", by.y="V1", all=FALSE)
-names(dfOutput) <- append(names(dfOutputT), "Activity")
+# Removing unnecessary variables
+remove('dfTemp1','dfTemp2','dfTest','dfTrain','dfTestS','dfTestO','dfTrainS','dfTrainO', 'dfFeat', 'dfAct',
+       'colnames', 'cols', 'fn', 'lFiles', 'sMessage', 'fnActivities', 'fnFeatures', 'fnTest_Data', 
+       'fnTest_Output', 'fnTest_Subject', 'fnTrain_Data', 'fnTrain_Output', 'fnTrain_Subject')
 
-cols <- append((1:(dim(dfOutput)[2]-2)), dim(dfOutput)[2]) # Selecting all the columns, but the ID column
-dfOutput <- dfOutput[,cols] # Removing the ID column                          
+# Writing the output 
+write.table(dfComplete, "all_clean_data.txt")
 
-
-
-
-
-
-
-
-
-
+# Step 2: Creating independent, tidy data with averages --------------------------------------------------
 
 
 
