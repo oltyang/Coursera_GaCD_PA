@@ -33,6 +33,7 @@ dfFeat  <- read.table(fnFeatures, header = FALSE,
 colnames <- gsub("()-","_",dfFeat[,2], fixed = TRUE)             # Formatting the variable names
 colnames <- gsub("()","", colnames, fixed = TRUE)
 colnames <- gsub("-","_", colnames)
+colnames <- gsub("BodyBody","Body", colnames)
 colnames <- toupper(colnames)                                    # To uppercase conversion 
 
 # Selecting only the relevant columns
@@ -72,6 +73,15 @@ write.table(dfComplete, "all_clean_data.txt")
 
 # Step 2: Creating independent, tidy data with averages --------------------------------------------------
 
+library(reshape2)
+dfTemp   <- dfComplete[,2:length(names(dfComplete))]             # Removing the SUBSET variable
+dfMelted <- melt(dfTemp, id.vars=c("SUBJECT","ACTIVITY"))        # Creating molten data frame
 
+dfTidy   <- dcast(dfMelted, 
+                  formula = ACTIVITY + SUBJECT ~ variable, mean) # Casting back with the calculation
 
-
+# Removing unnecessary variables
+remove('dfTemp','dfMelted')
+       
+# Writing the output 
+write.table(dfTidy, "averages_by_activity_subject.txt")
