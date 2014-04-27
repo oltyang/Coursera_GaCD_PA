@@ -17,16 +17,27 @@ http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartpho
 
 The steps performed by the script are the following:
 1. Checking the existence of the input data: the script verifies the existence of all the required input data files. If a file cannot be found in the "UCI HAR Dataset" subfolder (the original directory structure of the datasource required) the process stops with an error message listing all the missing files.
+
 2. Constructing descriptive column names: the original feature names are used (UCI HAR Dataset/features.txt), but somehow transformed: "()-" substrings replaced to "_"; "()" substrings removed; "-" chars replaced by "_" chars; "BodyBody" substring replaced to "Body" and all the column names converted to uppercase
+
 3. Selecting only the relevant columns: the columns containing mean and standard deviation are selected
+
 4. Reading data tables with descriptive column names and with only the relevant columns: test and train data tables are loaded from the input files with the relevant columns selected at the previous step
+
 5. Reading subject and activity datasets from the input files
+
 6. Labeling the data set with descriptive activity names: The activity names are loaded from the corresponding text file (UCI HAR Dataset/activity_labels.txt) and the activity datasets loaded in the previous step are encoded with these names.
+
 7. Merging and appending tables: the corresponding data, subject and activity datasets are merged and then appended. The script differentiates the test and the train dataset in the "SUBSET" column with "TEST"/"TRAIN" values after the appending.
+
 8. Removing unnecessary variables: all the temporary variables are released from the memory except the final dataset
+
 9. Writing the output: the final dataset is saved to "all_clean_data.txt" file. The size of the file is ~ 8.4MB and the dimension of it is 10299 x 69. The columns are: 8 [number of measures with 3 axial signals] x 3 [3 axial signals] x 2 [mean and std] + 9 [number of measures without axial signals] x 2 [mean and std] + subject + activity + subset. The rows are the sums of the test (2947) and train (7352) datasets.
+
 10. Creating independent, tidy dataset with averages: this step requires the reshape2 package. If this package is missing then the process stops with an error message. In the first substep the "SUBSET" variable is removed from the final dataset created in the previous steps, then a molten data frame is created using the "SUBJECT" and "ACTIVITY" columns as IDS. In the final part of this step a dataframe is casted back with the calculation of the averages of each variable for each activity and each subject.
+
 11. Removing unnecessary variables: all the temporary variables are released from the memory except the final dataset created in the 7th step, and the tidy dataset created in the previous step.
+
 12. Writing the output: the final dataset is saved to "averages_by_activity_subject.txt" file. The size of the file is ~ 225kB and the dimension of it is 180 x 68. The columns are: activity + subject + 8 [number of measures with 3 axial signals] x 3 [3 axial signals] x 2 [mean and std] + 9 [number of measures without axial signals] x 2 [mean and std]. The number of the rows equals the Cartesian product of the available activities and subjects.
 
 ## Assumptions
@@ -104,6 +115,7 @@ The steps performed by the script are the following:
 - FBODYGYROJERKMAG_MEAN: The mean of fBodyGyroJerkMag measure [original variable name: 'fBodyBodyGyroJerkMag-mean()']
 - FBODYGYROJERKMAG_STD: The standard deviation of fBodyGyroJerkMag measure [original variable name: 'fBodyBodyGyroJerkMag-std()']
 - ACTIVITY: The label of the activity (values: "WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING")
+
 ### "averages_by_activity_subject.txt"
 - ACTIVITY: The label of the activity (values: "WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING")
 - SUBJECT: ID of the subject - Its range is from 1 to 30
